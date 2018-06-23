@@ -86,6 +86,7 @@ void *                     Device_MakeTexture(void * device, struct TextureDescr
 
 void * CommandQueue_MakeCommandBuffer(void * commandQueue);
 
+void   CommandBuffer_PresentDrawable(void * commandBuffer, void * drawable);
 void   CommandBuffer_Commit(void * commandBuffer);
 void   CommandBuffer_WaitUntilCompleted(void * commandBuffer);
 void * CommandBuffer_MakeRenderCommandEncoder(void * commandBuffer, struct RenderPassDescriptor descriptor);

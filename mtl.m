@@ -100,6 +100,10 @@ void * CommandQueue_MakeCommandBuffer(void * commandQueue) {
 	return [(id<MTLCommandQueue>)commandQueue commandBuffer];
 }
 
+void CommandBuffer_PresentDrawable(void * commandBuffer, void * drawable) {
+	[(id<MTLCommandBuffer>)commandBuffer presentDrawable:(id<MTLDrawable>)drawable];
+}
+
 void CommandBuffer_Commit(void * commandBuffer) {
 	[(id<MTLCommandBuffer>)commandBuffer commit];
 }

@@ -193,6 +193,7 @@ const (
 //
 // Reference: https://developer.apple.com/documentation/metal/mtlresource.
 type Resource interface {
+	// resource returns the underlying id<MTLResource> pointer.
 	resource() unsafe.Pointer
 }
 
@@ -327,6 +328,9 @@ func CopyAllDevices() []Device {
 	return ds
 }
 
+// Device returns the underlying id<MTLDevice> pointer.
+func (d Device) Device() unsafe.Pointer { return d.device }
+
 // SupportsFeatureSet reports whether device d supports feature set fs.
 //
 // Reference: https://developer.apple.com/documentation/metal/mtldevice/1433418-supportsfeatureset.
@@ -405,6 +409,14 @@ type CompileOptions struct {
 	// TODO.
 }
 
+// Drawable is a displayable resource that can be rendered or written to.
+//
+// Reference: https://developer.apple.com/documentation/metal/mtldrawable.
+type Drawable interface {
+	// Drawable returns the underlying id<MTLDrawable> pointer.
+	Drawable() unsafe.Pointer
+}
+
 // CommandQueue is a queue that organizes the order
 // in which command buffers are executed by the GPU.
 //
@@ -426,6 +438,13 @@ func (cq CommandQueue) MakeCommandBuffer() CommandBuffer {
 // Reference: https://developer.apple.com/documentation/metal/mtlcommandbuffer.
 type CommandBuffer struct {
 	commandBuffer unsafe.Pointer
+}
+
+// PresentDrawable registers a drawable presentation to occur as soon as possible.
+//
+// Reference: https://developer.apple.com/documentation/metal/mtlcommandbuffer/1443029-presentdrawable.
+func (cb CommandBuffer) PresentDrawable(d Drawable) {
+	C.CommandBuffer_PresentDrawable(cb.commandBuffer, d.Drawable())
 }
 
 // Commit commits this command buffer for execution as soon as possible.
@@ -564,6 +583,8 @@ func (l Library) MakeFunction(name string) (Function, error) {
 type Texture struct {
 	texture unsafe.Pointer
 
+	// TODO: Change these fields into methods.
+
 	// Width is the width of the texture image for the base level mipmap, in pixels.
 	Width int
 
@@ -571,6 +592,12 @@ type Texture struct {
 	Height int
 }
 
+// NewTexture returns a Texture that wraps an existing id<MTLTexture> pointer.
+func NewTexture(texture unsafe.Pointer) Texture {
+	return Texture{texture: texture}
+}
+
+// resource implements the Resource interface.
 func (t Texture) resource() unsafe.Pointer { return t.texture }
 
 // GetBytes copies a block of pixels from the storage allocation of texture
