@@ -27,6 +27,7 @@ func Example_listDevices() {
 
 	fmt.Println("device supports the macOS GPU family 1, version 1 feature set:", device.SupportsFeatureSet(mtl.MacOSGPUFamily1V1))
 	fmt.Println("device supports the macOS GPU family 1, version 2 feature set:", device.SupportsFeatureSet(mtl.MacOSGPUFamily1V2))
+	fmt.Println("device supports the macOS read-write texture, tier 2 feature set:", device.SupportsFeatureSet(mtl.MacOSReadWriteTextureTier2))
 	fmt.Println("device supports the macOS GPU family 1, version 3 feature set:", device.SupportsFeatureSet(mtl.MacOSGPUFamily1V3))
 	fmt.Println("device supports the macOS GPU family 1, version 4 feature set:", device.SupportsFeatureSet(mtl.MacOSGPUFamily1V4))
 	fmt.Println("device supports the macOS GPU family 2, version 1 feature set:", device.SupportsFeatureSet(mtl.MacOSGPUFamily2V1))
@@ -37,14 +38,14 @@ func Example_listDevices() {
 	// 		"Headless": false,
 	// 		"LowPower": true,
 	// 		"Removable": false,
-	// 		"RegistryID": 4294968304,
+	// 		"RegistryID": 4294968287,
 	// 		"Name": "Intel Iris Pro Graphics"
 	// 	},
 	// 	{
 	// 		"Headless": false,
 	// 		"LowPower": false,
 	// 		"Removable": false,
-	// 		"RegistryID": 4294968344,
+	// 		"RegistryID": 4294968322,
 	// 		"Name": "AMD Radeon R9 M370X"
 	// 	}
 	// ]
@@ -52,14 +53,15 @@ func Example_listDevices() {
 	// 	"Headless": false,
 	// 	"LowPower": false,
 	// 	"Removable": false,
-	// 	"RegistryID": 4294968344,
+	// 	"RegistryID": 4294968322,
 	// 	"Name": "AMD Radeon R9 M370X"
 	// }
 	// device supports the macOS GPU family 1, version 1 feature set: true
 	// device supports the macOS GPU family 1, version 2 feature set: true
+	// device supports the macOS read-write texture, tier 2 feature set: true
 	// device supports the macOS GPU family 1, version 3 feature set: true
-	// device supports the macOS GPU family 1, version 4 feature set: false
-	// device supports the macOS GPU family 2, version 1 feature set: false
+	// device supports the macOS GPU family 1, version 4 feature set: true
+	// device supports the macOS GPU family 2, version 1 feature set: true
 }
 
 // printJSON prints label, then v as JSON encoded with indent to stdout. It panics on any error.

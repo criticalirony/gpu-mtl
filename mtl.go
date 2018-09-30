@@ -32,11 +32,12 @@ type FeatureSet uint16
 
 // The device feature sets that define specific platform, hardware, and software configurations.
 const (
-	MacOSGPUFamily1V1 FeatureSet = 10000 // The GPU family 1, version 1 feature set for macOS.
-	MacOSGPUFamily1V2 FeatureSet = 10001 // The GPU family 1, version 2 feature set for macOS.
-	MacOSGPUFamily1V3 FeatureSet = 10003 // The GPU family 1, version 3 feature set for macOS.
-	MacOSGPUFamily1V4 FeatureSet = 10004 // The GPU family 1, version 4 feature set for macOS.
-	MacOSGPUFamily2V1 FeatureSet = 10005 // The GPU family 2, version 1 feature set for macOS.
+	MacOSGPUFamily1V1          FeatureSet = 10000 // The GPU family 1, version 1 feature set for macOS.
+	MacOSGPUFamily1V2          FeatureSet = 10001 // The GPU family 1, version 2 feature set for macOS.
+	MacOSReadWriteTextureTier2 FeatureSet = 10002 // The read-write texture, tier 2 feature set for macOS.
+	MacOSGPUFamily1V3          FeatureSet = 10003 // The GPU family 1, version 3 feature set for macOS.
+	MacOSGPUFamily1V4          FeatureSet = 10004 // The GPU family 1, version 4 feature set for macOS.
+	MacOSGPUFamily2V1          FeatureSet = 10005 // The GPU family 2, version 1 feature set for macOS.
 )
 
 // PixelFormat defines data formats that describe the organization
