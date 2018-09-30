@@ -5,6 +5,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"image"
 	"image/png"
 	"log"
@@ -15,10 +17,25 @@ import (
 	"golang.org/x/image/math/f32"
 )
 
+func usage() {
+	fmt.Fprintln(os.Stderr, "Usage: hellotriangle")
+	flag.PrintDefaults()
+}
+
 func main() {
-	device, err := mtl.CreateSystemDefaultDevice()
+	flag.Usage = usage
+	flag.Parse()
+
+	err := run()
 	if err != nil {
 		log.Fatalln(err)
+	}
+}
+
+func run() error {
+	device, err := mtl.CreateSystemDefaultDevice()
+	if err != nil {
+		return err
 	}
 
 	// Create a render pipeline state.
@@ -44,24 +61,23 @@ fragment float4 FragmentShader(Vertex in [[stage_in]]) {
 `
 	lib, err := device.MakeLibrary(source, mtl.CompileOptions{})
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 	vs, err := lib.MakeFunction("VertexShader")
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 	fs, err := lib.MakeFunction("FragmentShader")
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
-
 	var rpld mtl.RenderPipelineDescriptor
 	rpld.VertexFunction = vs
 	rpld.FragmentFunction = fs
 	rpld.ColorAttachments[0].PixelFormat = mtl.PixelFormatRGBA8UNorm
 	rps, err := device.MakeRenderPipelineState(rpld)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 
 	// Create a vertex buffer.
@@ -116,9 +132,7 @@ fragment float4 FragmentShader(Vertex in [[stage_in]]) {
 
 	// Write output image to a PNG file.
 	err = writePNG("triangle.png", img)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	return err
 }
 
 // writePNG encodes the image m to a named file, in PNG format.
