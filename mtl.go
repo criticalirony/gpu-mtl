@@ -15,7 +15,6 @@ import (
 )
 
 /*
-#cgo CFLAGS: -x objective-c
 #cgo LDFLAGS: -framework Metal -framework Foundation
 #include <stdlib.h>
 #include "mtl.h"
@@ -49,8 +48,9 @@ type PixelFormat uint8
 // The data formats that describe the organization and characteristics
 // of individual pixels in a texture.
 const (
-	PixelFormatRGBA8UNorm PixelFormat = 70 // Ordinary format with four 8-bit normalized unsigned integer components in RGBA order.
-	PixelFormatBGRA8UNorm PixelFormat = 80 // Ordinary format with four 8-bit normalized unsigned integer components in BGRA order.
+	PixelFormatRGBA8UNorm     PixelFormat = 70 // Ordinary format with four 8-bit normalized unsigned integer components in RGBA order.
+	PixelFormatBGRA8UNorm     PixelFormat = 80 // Ordinary format with four 8-bit normalized unsigned integer components in BGRA order.
+	PixelFormatBGRA8UNormSRGB PixelFormat = 81 // Ordinary format with four 8-bit normalized unsigned integer components in BGRA order with conversion between sRGB and linear space.
 )
 
 // PrimitiveType defines geometric primitive types for drawing commands.
@@ -215,7 +215,7 @@ type RenderPipelineDescriptor struct {
 //
 // Reference: https://developer.apple.com/documentation/metal/mtlrenderpipelinecolorattachmentdescriptor.
 type RenderPipelineColorAttachmentDescriptor struct {
-	// PixelFormat is the pixel format of the color attachment’s texture.
+	// PixelFormat is the pixel format of the color attachment's texture.
 	PixelFormat PixelFormat
 }
 
@@ -505,6 +505,13 @@ func (rce RenderCommandEncoder) SetRenderPipelineState(rps RenderPipelineState) 
 // Reference: https://developer.apple.com/documentation/metal/mtlrendercommandencoder/1515829-setvertexbuffer.
 func (rce RenderCommandEncoder) SetVertexBuffer(buf Buffer, offset, index int) {
 	C.RenderCommandEncoder_SetVertexBuffer(rce.commandEncoder, buf.buffer, C.uint_t(offset), C.uint_t(index))
+}
+
+// SetVertexBytes sets a block of data for the vertex function.
+//
+// Reference: https://developer.apple.com/documentation/metal/mtlrendercommandencoder/1515846-setvertexbytes.
+func (rce RenderCommandEncoder) SetVertexBytes(bytes unsafe.Pointer, length uintptr, index int) {
+	C.RenderCommandEncoder_SetVertexBytes(rce.commandEncoder, bytes, C.size_t(length), C.uint_t(index))
 }
 
 // DrawPrimitives renders one instance of primitives using vertex data

@@ -1,7 +1,7 @@
 // +build darwin
 
-#include <stdlib.h>
 #import <Metal/Metal.h>
+#include <stdlib.h>
 #include "mtl.h"
 
 struct Device CreateSystemDefaultDevice() {
@@ -136,14 +136,20 @@ void RenderCommandEncoder_SetRenderPipelineState(void * renderCommandEncoder, vo
 
 void RenderCommandEncoder_SetVertexBuffer(void * renderCommandEncoder, void * buffer, uint_t offset, uint_t index) {
 	[(id<MTLRenderCommandEncoder>)renderCommandEncoder setVertexBuffer:(id<MTLBuffer>)buffer
-	                                                            offset:offset
-	                                                           atIndex:index];
+	                                                            offset:(NSUInteger)offset
+	                                                           atIndex:(NSUInteger)index];
+}
+
+void RenderCommandEncoder_SetVertexBytes(void * renderCommandEncoder, const void * bytes, size_t length, uint_t index) {
+	[(id<MTLRenderCommandEncoder>)renderCommandEncoder setVertexBytes:bytes
+	                                                           length:(NSUInteger)length
+	                                                          atIndex:(NSUInteger)index];
 }
 
 void RenderCommandEncoder_DrawPrimitives(void * renderCommandEncoder, uint8_t primitiveType, uint_t vertexStart, uint_t vertexCount) {
-	[(id<MTLRenderCommandEncoder>)renderCommandEncoder drawPrimitives:primitiveType
-	                                                      vertexStart:vertexStart
-	                                                      vertexCount:vertexCount];
+	[(id<MTLRenderCommandEncoder>)renderCommandEncoder drawPrimitives:(MTLPrimitiveType)primitiveType
+	                                                      vertexStart:(NSUInteger)vertexStart
+	                                                      vertexCount:(NSUInteger)vertexCount];
 }
 
 void BlitCommandEncoder_Synchronize(void * blitCommandEncoder, void * resource) {

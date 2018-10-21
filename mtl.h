@@ -95,6 +95,7 @@ void CommandEncoder_EndEncoding(void * commandEncoder);
 
 void RenderCommandEncoder_SetRenderPipelineState(void * renderCommandEncoder, void * renderPipelineState);
 void RenderCommandEncoder_SetVertexBuffer(void * renderCommandEncoder, void * buffer, uint_t offset, uint_t index);
+void RenderCommandEncoder_SetVertexBytes(void * renderCommandEncoder, const void * bytes, size_t length, uint_t index);
 void RenderCommandEncoder_DrawPrimitives(void * renderCommandEncoder, uint8_t primitiveType, uint_t vertexStart, uint_t vertexCount);
 
 void BlitCommandEncoder_Synchronize(void * blitCommandEncoder, void * resource);
