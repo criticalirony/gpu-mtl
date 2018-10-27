@@ -2,6 +2,8 @@
 
 // Package mtl provides access to Apple's Metal API (https://developer.apple.com/documentation/metal).
 //
+// Package mtl requires macOS version 10.13 or newer.
+//
 // This package is in very early stages of development.
 // The API will change when opportunities for improvement are discovered; it is not yet frozen.
 // Less than 20% of the Metal API surface is implemented.
