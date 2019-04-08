@@ -156,12 +156,33 @@ void RenderCommandEncoder_DrawPrimitives(void * renderCommandEncoder, uint8_t pr
 	                                                      vertexCount:(NSUInteger)vertexCount];
 }
 
+void BlitCommandEncoder_CopyFromTexture(void * blitCommandEncoder,
+	void * srcTexture, uint_t srcSlice, uint_t srcLevel, struct Origin srcOrigin, struct Size srcSize,
+	void * dstTexture, uint_t dstSlice, uint_t dstLevel, struct Origin dstOrigin) {
+	[(id<MTLBlitCommandEncoder>)blitCommandEncoder copyFromTexture:(id<MTLTexture>)srcTexture
+	                                                   sourceSlice:(NSUInteger)srcSlice
+	                                                   sourceLevel:(NSUInteger)srcLevel
+	                                                  sourceOrigin:(MTLOrigin){srcOrigin.X, srcOrigin.Y, srcOrigin.Z}
+	                                                    sourceSize:(MTLSize){srcSize.Width, srcSize.Height, srcSize.Depth}
+	                                                     toTexture:(id<MTLTexture>)dstTexture
+	                                              destinationSlice:(NSUInteger)dstSlice
+	                                              destinationLevel:(NSUInteger)dstLevel
+	                                             destinationOrigin:(MTLOrigin){dstOrigin.X, dstOrigin.Y, dstOrigin.Z}];
+}
+
 void BlitCommandEncoder_Synchronize(void * blitCommandEncoder, void * resource) {
 	[(id<MTLBlitCommandEncoder>)blitCommandEncoder synchronizeResource:(id<MTLResource>)resource];
 }
 
 void * Library_MakeFunction(void * library, const char * name) {
 	return [(id<MTLLibrary>)library newFunctionWithName:[NSString stringWithUTF8String:name]];
+}
+
+void Texture_ReplaceRegion(void * texture, struct Region region, uint_t level, void * pixelBytes, size_t bytesPerRow) {
+	[(id<MTLTexture>)texture replaceRegion:(MTLRegion){{region.Origin.X, region.Origin.Y, region.Origin.Z}, {region.Size.Width, region.Size.Height, region.Size.Depth}}
+	                           mipmapLevel:(NSUInteger)level
+	                             withBytes:(void *)pixelBytes
+	                           bytesPerRow:(NSUInteger)bytesPerRow];
 }
 
 void Texture_GetBytes(void * texture, void * pixelBytes, size_t bytesPerRow, struct Region region, uint_t level) {

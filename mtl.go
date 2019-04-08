@@ -551,6 +551,36 @@ type BlitCommandEncoder struct {
 	CommandEncoder
 }
 
+// CopyFromTexture encodes a command to copy image data from a slice of
+// a source texture into a slice of a destination texture.
+//
+// Reference: https://developer.apple.com/documentation/metal/mtlblitcommandencoder/1400754-copyfromtexture.
+func (bce BlitCommandEncoder) CopyFromTexture(
+	src Texture, srcSlice, srcLevel int, srcOrigin Origin, srcSize Size,
+	dst Texture, dstSlice, dstLevel int, dstOrigin Origin,
+) {
+	C.BlitCommandEncoder_CopyFromTexture(
+		bce.commandEncoder,
+		src.texture, C.uint_t(srcSlice), C.uint_t(srcLevel),
+		C.struct_Origin{
+			X: C.uint_t(srcOrigin.X),
+			Y: C.uint_t(srcOrigin.Y),
+			Z: C.uint_t(srcOrigin.Z),
+		},
+		C.struct_Size{
+			Width:  C.uint_t(srcSize.Width),
+			Height: C.uint_t(srcSize.Height),
+			Depth:  C.uint_t(srcSize.Depth),
+		},
+		dst.texture, C.uint_t(dstSlice), C.uint_t(dstLevel),
+		C.struct_Origin{
+			X: C.uint_t(dstOrigin.X),
+			Y: C.uint_t(dstOrigin.Y),
+			Z: C.uint_t(dstOrigin.Z),
+		},
+	)
+}
+
 // Synchronize flushes any copy of the specified resource from its corresponding
 // Device caches and, if needed, invalidates any CPU caches.
 //
@@ -601,6 +631,25 @@ func NewTexture(texture unsafe.Pointer) Texture {
 
 // resource implements the Resource interface.
 func (t Texture) resource() unsafe.Pointer { return t.texture }
+
+// ReplaceRegion copies a block of pixels into a section of texture slice 0.
+//
+// Reference: https://developer.apple.com/documentation/metal/mtltexture/1515464-replaceregion.
+func (t Texture) ReplaceRegion(region Region, level int, pixelBytes *byte, bytesPerRow uintptr) {
+	r := C.struct_Region{
+		Origin: C.struct_Origin{
+			X: C.uint_t(region.Origin.X),
+			Y: C.uint_t(region.Origin.Y),
+			Z: C.uint_t(region.Origin.Z),
+		},
+		Size: C.struct_Size{
+			Width:  C.uint_t(region.Size.Width),
+			Height: C.uint_t(region.Size.Height),
+			Depth:  C.uint_t(region.Size.Depth),
+		},
+	}
+	C.Texture_ReplaceRegion(t.texture, r, C.uint_t(level), unsafe.Pointer(pixelBytes), C.size_t(bytesPerRow))
+}
 
 // GetBytes copies a block of pixels from the storage allocation of texture
 // slice zero into system memory at a specified address.

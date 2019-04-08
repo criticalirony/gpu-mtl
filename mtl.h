@@ -99,8 +99,12 @@ void RenderCommandEncoder_SetVertexBuffer(void * renderCommandEncoder, void * bu
 void RenderCommandEncoder_SetVertexBytes(void * renderCommandEncoder, const void * bytes, size_t length, uint_t index);
 void RenderCommandEncoder_DrawPrimitives(void * renderCommandEncoder, uint8_t primitiveType, uint_t vertexStart, uint_t vertexCount);
 
+void BlitCommandEncoder_CopyFromTexture(void * blitCommandEncoder,
+	void * srcTexture, uint_t srcSlice, uint_t srcLevel, struct Origin srcOrigin, struct Size srcSize,
+	void * dstTexture, uint_t dstSlice, uint_t dstLevel, struct Origin dstOrigin);
 void BlitCommandEncoder_Synchronize(void * blitCommandEncoder, void * resource);
 
 void * Library_MakeFunction(void * library, const char * name);
 
+void Texture_ReplaceRegion(void * texture, struct Region region, uint_t level, void * pixelBytes, size_t bytesPerRow);
 void Texture_GetBytes(void * texture, void * pixelBytes, size_t bytesPerRow, struct Region region, uint_t level);
