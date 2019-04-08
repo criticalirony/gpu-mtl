@@ -63,9 +63,9 @@ func run() error {
 	ml.SetDrawableSize(window.GetFramebufferSize())
 	ml.SetMaximumDrawableCount(3)
 	ml.SetDisplaySyncEnabled(true)
-	cocoaWindow := ns.NewWindow(unsafe.Pointer(window.GetCocoaWindow()))
-	cocoaWindow.ContentView().SetLayer(ml)
-	cocoaWindow.ContentView().SetWantsLayer(true)
+	cv := ns.NewWindow(unsafe.Pointer(window.GetCocoaWindow())).ContentView()
+	cv.SetLayer(ml)
+	cv.SetWantsLayer(true)
 
 	// Set callbacks.
 	window.SetFramebufferSizeCallback(func(_ *glfw.Window, width, height int) {
