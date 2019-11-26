@@ -16,7 +16,7 @@ import (
 	"dmitri.shuralyov.com/gpu/mtl"
 	"dmitri.shuralyov.com/gpu/mtl/example/movingtriangle/internal/ca"
 	"dmitri.shuralyov.com/gpu/mtl/example/movingtriangle/internal/ns"
-	"github.com/go-gl/glfw/v3.2/glfw"
+	"github.com/go-gl/glfw/v3.3/glfw"
 	"golang.org/x/image/math/f32"
 )
 
