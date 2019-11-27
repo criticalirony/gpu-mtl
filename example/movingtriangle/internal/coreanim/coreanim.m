@@ -1,7 +1,7 @@
 // +build darwin
 
 #import <QuartzCore/QuartzCore.h>
-#include "ca.h"
+#include "coreanim.h"
 
 void * MakeMetalLayer() {
 	return [[CAMetalLayer alloc] init];

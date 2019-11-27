@@ -14,8 +14,8 @@ import (
 	"unsafe"
 
 	"dmitri.shuralyov.com/gpu/mtl"
-	"dmitri.shuralyov.com/gpu/mtl/example/movingtriangle/internal/ca"
-	"dmitri.shuralyov.com/gpu/mtl/example/movingtriangle/internal/ns"
+	"dmitri.shuralyov.com/gpu/mtl/example/movingtriangle/internal/appkit"
+	"dmitri.shuralyov.com/gpu/mtl/example/movingtriangle/internal/coreanim"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"golang.org/x/image/math/f32"
 )
@@ -57,13 +57,13 @@ func run() error {
 	}
 	defer window.Destroy()
 
-	ml := ca.MakeMetalLayer()
+	ml := coreanim.MakeMetalLayer()
 	ml.SetDevice(device)
 	ml.SetPixelFormat(mtl.PixelFormatBGRA8UNorm)
 	ml.SetDrawableSize(window.GetFramebufferSize())
 	ml.SetMaximumDrawableCount(3)
 	ml.SetDisplaySyncEnabled(true)
-	cv := ns.NewWindow(window.GetCocoaWindow()).ContentView()
+	cv := appkit.NewWindow(window.GetCocoaWindow()).ContentView()
 	cv.SetLayer(ml)
 	cv.SetWantsLayer(true)
 

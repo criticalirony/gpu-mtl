@@ -1,7 +1,7 @@
 // +build darwin
 
 #import <Cocoa/Cocoa.h>
-#include "ns.h"
+#include "appkit.h"
 
 void * Window_ContentView(void * window) {
 	return ((NSWindow *)window).contentView;

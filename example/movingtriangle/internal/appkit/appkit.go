@@ -1,20 +1,21 @@
 // +build darwin
 
-// Package ns provides access to Apple's AppKit API (https://developer.apple.com/documentation/appkit).
+// Package appkit provides access to Apple's AppKit API
+// (https://developer.apple.com/documentation/appkit).
 //
 // This package is in very early stages of development.
 // It's a minimal implementation with scope limited to
 // supporting the movingtriangle example.
-package ns
+package appkit
 
 import (
 	"unsafe"
 
-	"dmitri.shuralyov.com/gpu/mtl/example/movingtriangle/internal/ca"
+	"dmitri.shuralyov.com/gpu/mtl/example/movingtriangle/internal/coreanim"
 )
 
 /*
-#include "ns.h"
+#include "appkit.h"
 */
 import "C"
 
@@ -48,7 +49,7 @@ type View struct {
 // SetLayer sets v.layer to l.
 //
 // Reference: https://developer.apple.com/documentation/appkit/nsview/1483298-layer.
-func (v View) SetLayer(l ca.Layer) {
+func (v View) SetLayer(l coreanim.Layer) {
 	C.View_SetLayer(v.view, l.Layer())
 }
 
@@ -56,10 +57,12 @@ func (v View) SetLayer(l ca.Layer) {
 //
 // Reference: https://developer.apple.com/documentation/appkit/nsview/1483695-wantslayer.
 func (v View) SetWantsLayer(wantsLayer bool) {
-	switch wantsLayer {
-	case true:
-		C.View_SetWantsLayer(v.view, 1)
-	case false:
-		C.View_SetWantsLayer(v.view, 0)
+	C.View_SetWantsLayer(v.view, toCBool(wantsLayer))
+}
+
+func toCBool(b bool) C.BOOL {
+	if b {
+		return 1
 	}
+	return 0
 }
