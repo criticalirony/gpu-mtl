@@ -63,7 +63,7 @@ func run() error {
 	ml.SetDrawableSize(window.GetFramebufferSize())
 	ml.SetMaximumDrawableCount(3)
 	ml.SetDisplaySyncEnabled(true)
-	cv := ns.NewWindow(unsafe.Pointer(window.GetCocoaWindow())).ContentView()
+	cv := ns.NewWindow(window.GetCocoaWindow()).ContentView()
 	cv.SetLayer(ml)
 	cv.SetWantsLayer(true)
 
